@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>title</title>
+    <div th:include="fragment/head :: head"></div>
+</head>
+<body>
+    <a class="layui-btn layui-btn-sm" id="add">添加公司</a>
+
+    <table id="company" lay-filter="company"></table>
+    <script type="text/html" id="del">
+        <a class="layui-btn  layui-btn-xs" lay-event="del">删除</a>
+    </script>
+    <div id="form" style="display: none">
+
+    </div>
+
+    <script th:src="@{/static/layui/layui.js}"></script>
+    <script th:inline="javascript">
+
+    /*<![CDATA[*/
+    layui.use(['table','form'], function () {
+        var table = layui.table
+            , $ = layui.$
+            ,form=layui.form;
+        //员工
+        var cpmpanys=table.render({
+            elem: '#company'
+            , id: 'company'
+            , url: 'list' //数据接口
+            , method: 'post'
+            , cols: [[ //表头
+                {field: 'name', title: '公司名称', width: '30%', sort: true}
+                ,{field: 'area', title: '负责地区', width: '30%', sort: true}
+                ,{field: 'del', title: '删除公司', width: '30%', sort: true,toolbar:'#del'}
+            ]]
+        });
+        $("#add").click(function(){
+            layer.open({
+                type: 2
+                , title: '添加公司'
+                , area: ['500px', '300px']
+                , content: ["add","no"]
+                ,cancel: function(){
+                    cpmpanys.reload();
+                }
+
+            })
+        });
+        table.on('tool(company)',function (obj) {
+            var layEvent = obj.event;
+            var data = obj.data;
+            console.log(data);
+            if(layEvent==='del'){
+                layer.confirm("确定删除？",function (index) {
+                    obj.del();
+                    layer.close(index);
+                    $.ajax({
+                        url:[[${ctx}]] + "/company/delete",
+                        type:"post",
+                        dataType:"json",
+                        data:{id: JSON.stringify(data.id)},
+                        success:function (data) {
+                            layer.message(data.message);
+                        }
+                    })
+                    window.location.reload();
+                })
+            }
+        })
+
+    });
+
+
+    /*]]>*/
+    </script>
+</body>
+</html>
