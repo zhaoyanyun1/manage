@@ -7,6 +7,7 @@ import com.cch.entity.User;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * Created by Administrator on 2018/3/14.
@@ -20,6 +21,10 @@ public class UserServiceImpl extends BaseServiceImpl<User,String> implements Use
 
     public User getByuserName(String username) {
         return userMapper.getByUserName(username);
+    }
+
+    public List<User> listAll() {
+        return userMapper.findAll(new User());
     }
 
 //    public List<Role> getRoleList(String  userId) {

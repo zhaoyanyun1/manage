@@ -28,6 +28,12 @@ public class Manage {
     public String userManage(){
 
 
-        return "/manage/usermanage";
+        return "/manage/userinfo/usermanage";
+    }
+    @GetMapping(value = "/add")
+    public String add(){
+
+
+        return "/manage/userinfo/add";
     }
 }

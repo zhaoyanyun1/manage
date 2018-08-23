@@ -22,6 +22,8 @@ public class User extends BaseEntity {
 
     private String passWd ;
 
+    private String state ;
+
 
     public String getUserName() {
         return userName;
@@ -39,6 +41,13 @@ public class User extends BaseEntity {
         this.passWd = passWd;
     }
 
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
 
 //    public String Sal(){
 //        return new Md5Hash(this.getPassWd() + this.getUserName()).toString();

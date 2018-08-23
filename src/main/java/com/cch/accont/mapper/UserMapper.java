@@ -24,6 +24,16 @@ public interface UserMapper extends BaseMapper<User,String> {
             @Result(property = "userName",column = "user_name"),
     })
     User getByUserName(@Param("username") String username);
+    /**
+     * 根据用户名获取用户
+     * @return
+     */
+    @Select("select * from t_user where state=1")
+    @Results({
+            @Result(property = "passWd", column = "pass_wd"),
+            @Result(property = "userName",column = "user_name"),
+    })
+    List<User> getUserList();
 
 //    /**
 //     * 获取用户的角色
