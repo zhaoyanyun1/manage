@@ -17,6 +17,12 @@ public interface UserService extends BaseService<User,String> {
      */
     User getByuserName(String username) ;
     /**
+     * 根据用户名和密码获取用户
+     * @param username
+     * @return
+     */
+    User getUser(String username,String passWd) ;
+    /**
      * 查询所有用户列表
      * @return
      */

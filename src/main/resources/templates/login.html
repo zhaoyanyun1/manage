@@ -24,8 +24,8 @@
             <div class="box-login login-box-warp">
                 <div class="login-box module-static">
                     <div class="static-form ">
-                        <div class="login-title">用户登录</div>
-                        <form action="login" class="form-login" method="post" autocomplete="off">
+                        <div class="login-title">用户登录</div><p style="color: red; font-size: 13px" th:text="${error}"></p>
+                        <form action="login" class="form-login" method="post" autocomplete="off" id="login">
                             <!--<div id="login_Message"-->
                             <!--th:unless="${#strings.isEmpty(#strings.toString(errmsg))}"-->
                             <!--class="login-msg error" th:text="${#strings.toString(errmsg)}">-->
@@ -45,7 +45,7 @@
                             </div>
                             <!--<div  th:unless="${#strings.isEmpty(#strings.toString(tig))}" th:text="${#strings.toString(tig)}"></div>-->
                             <div class="submit">
-                                <button type="submit" id="login_submit">登录</button>
+                                <button type="button" id="login_submit" onclick="login()">登录</button>
                             </div>
                         </form>
                     </div>
@@ -68,6 +68,23 @@
     $(function () {
         init();
     });
+
+
+    function login(){
+        // alert("提交验证");
+        var username = $("#login_username").val();
+        var password = $("#log_pwd").val();
+
+        if(username==null || username==""){
+            alert("用户名不能为空");
+            return null;
+        }
+        if(password==null || password==""){
+            alert("密码不能为空");
+            return null;
+        }
+        $("#login").submit();
+    }
 </script>
 </body>
 </html>

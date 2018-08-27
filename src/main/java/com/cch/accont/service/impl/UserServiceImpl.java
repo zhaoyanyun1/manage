@@ -23,6 +23,10 @@ public class UserServiceImpl extends BaseServiceImpl<User,String> implements Use
         return userMapper.getByUserName(username);
     }
 
+    public User getUser(String username, String passWd) {
+        return userMapper.getUser(username,passWd);
+    }
+
     public List<User> listAll() {
         return userMapper.findAll(new User());
     }
