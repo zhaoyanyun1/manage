@@ -1,0 +1,147 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>出库管理</title>
+    <div th:include="fragment/head :: head"></div>
+</head>
+<body>
+<form class="layui-form" method="post" id="addSupplier">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">货位</label>
+        <div class="layui-input-inline">
+            <input type="text" name="goodsAllocation" required="required" lay-verify="required" placeholder="货位"
+                   autocomplete="off" class="layui-input"/>
+        </div>
+        <label class="layui-form-label">业务员</label>
+        <div class="layui-input-inline">
+            <input type="text" name="salesman" required="required" lay-verify="required" placeholder="业务员"
+                   autocomplete="off" class="layui-input"/>
+        </div>
+        <label class="layui-form-label">客户</label>
+        <div class="layui-input-inline">
+            <input type="text" name="client" required="required" lay-verify="required" placeholder="客户"
+                   autocomplete="off" class="layui-input"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">客户地址</label>
+        <div class="layui-input-inline">
+            <input type="text" name="clientAddress" required="required" lay-verify="required" placeholder="客户地址"
+                   autocomplete="off" class="layui-input"/>
+        </div>
+        <label class="layui-form-label">发货方式</label>
+        <div class="layui-input-inline">
+            <input type="text" name="despatchMode" required="required" lay-verify="required" placeholder="发货方式"
+                   autocomplete="off" class="layui-input"/>
+        </div>
+    </div>
+    <div id="detail">
+        <div class="layui-form-item">
+            <label class="layui-form-label">物品类型</label>
+            <div class="layui-input-inline">
+                <select name="goodsType">
+                    <option value=""></option>
+                    <option th:each="c:${repertorys}" th:text="${c.goodsType}" th:value="${c.goodsType}" onchange="wuping(this)"></option>
+                </select>
+            </div>
+            <label class="layui-form-label">物品名称</label>
+            <div class="layui-input-inline">
+
+                <select name="goodsName">
+                    <option value=""></option>
+                    <option th:each="c:${repertorys}" th:if="${repertorys.goodsType}" th:text="${c.goodsName}" th:value="${c.goodsName}"></option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">物品数量</label>
+            <div class="layui-input-inline">
+                <input type="text" name="goodsNum" required="required" lay-verify="required" placeholder="物品数量"
+                       autocomplete="off" class="layui-input"/>
+            </div>
+            <label class="layui-form-label">供货商</label>
+            <div class="layui-input-inline">
+
+                <select name="supplier">
+                    <option value=""></option>
+                    <option th:each="c:${repertorys}" th:text="${c.supplier}" th:value="${c.supplier}"></option>
+                </select>
+            </div>
+            <label class="layui-form-label">单价</label>
+            <div class="layui-input-inline">
+                <input type="text" name="price" required="required" lay-verify="required" placeholder="单价"
+                       autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">结算金额</label>
+        <div class="layui-input-inline">
+            <input type="text" name="money" required="required" lay-verify="required" placeholder="结算金额"
+                   autocomplete="off" class="layui-input"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-inline">
+            <input type="text" name="remark" required="required" lay-verify="required" placeholder="备注"
+                   autocomplete="off" class="layui-input"/>
+        </div>
+    </div>
+    <input type="hidden" name="state" value="1"/>
+    <input type="hidden" name="id"/>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit="lay-submit" lay-filter="supplier">立即提交</button>
+        </div>
+
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit="lay-submit" lay-filter="add">添加物品</button>
+        </div>
+    </div>
+</form>
+</body>
+<script th:src="@{/static/layui/layui.js}"></script>
+<script th:inline="javascript">
+
+    /*<![CDATA[*/
+    layui.use('form', function () {
+        var form = layui.form
+            , $ = layui.$;
+        //监听提交
+        form.on('submit(supplier)', function (data) {
+            $.ajax({
+                url: "/manage/stockManage/stockManage/out",
+                type: "post",
+                dataType: 'json',
+                contentType: 'application/json;charset=utf-8',
+                data: JSON.stringify(data.field),
+                success: function (data) {
+                    $("#addSupplier")[0].reset();
+                    layer.msg(data.message);
+                }
+            });
+            return false;
+        });
+
+
+        //监听提交
+        form.on('submit(add)', function (data) {
+            alert(123);
+            $("#detail").append("");
+            return false;
+        });
+    });
+
+    function add() {
+        alert(123);
+    }
+    function wuping(data){
+        alert(data);
+    }
+    /*]]>*/
+</script>
+</html>

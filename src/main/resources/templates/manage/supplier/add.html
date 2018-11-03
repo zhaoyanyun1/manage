@@ -1,0 +1,56 @@
+
+<html lang="en"  xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="UTF-8"/>
+    <title>供货商管理</title>
+    <div th:include="fragment/head :: head"></div>
+</head>
+<body>
+<form class="layui-form"  method="post" id="addSupplier">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">供货商名称</label>
+        <div class="layui-input-inline">
+            <input type="text" name="supplierName" required ="required" lay-verify="required" placeholder="供货商名称" autocomplete="off" class="layui-input"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">供货商电话</label>
+        <div class="layui-input-inline">
+            <input type="text" name="supplierTel" required ="required" lay-verify="required" placeholder="供货商电话" autocomplete="off" class="layui-input"/>
+        </div>
+    </div>
+    <input type="hidden" name="state" value="1"/>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button  class="layui-btn" lay-submit="lay-submit" lay-filter="supplier">立即提交</button>
+        </div>
+    </div>
+</form>
+</body>
+<script th:src="@{/static/layui/layui.js}"></script>
+<script th:inline="javascript">
+
+    /*<![CDATA[*/
+    layui.use('form', function () {
+        var form=layui.form
+            ,$ = layui.$;
+        //监听提交
+        form.on('submit(supplier)', function(data){
+            $.ajax({
+                url:"/manage/stockManage/supplier/add",
+                type:"post",
+                dataType:'json',
+                contentType:'application/json;charset=utf-8',
+                data:JSON.stringify(data.field),
+                success:function (data) {
+                    $("#addSupplier")[0].reset();
+                    layer.msg(data.message);
+                }
+            });
+            return false;
+        });
+    });
+    /*]]>*/
+</script>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>title</title>
+    <div th:include="fragment/head :: head"></div>
+</head>
+<body>
+<!--<a class="layui-btn layui-btn-sm" id="add">入库</a>-->
+
+<table id="repertory" lay-filter="repertory"></table>
+<script type="text/html" id="del">
+    <a class="layui-btn  layui-btn-xs" lay-event="del">出库</a>
+</script>
+<div id="form" style="display: none">
+
+</div>
+
+<script th:src="@{/static/layui/layui.js}"></script>
+<script th:inline="javascript">
+
+    /*<![CDATA[*/
+    layui.use(['table', 'form'], function () {
+        var table = layui.table
+            , $ = layui.$
+            , form = layui.form;
+        //员工
+        var userinfos = table.render({
+            elem: '#repertory'
+            , id: 'repertory'
+            , url: 'list' //数据接口
+            , method: 'post'
+            , cols: [[ //表头
+                {field: 'goodsAllocation', title: '货位', width: '10%', sort: true, event: 'ssssss'}
+                , {field: 'goodsType', title: '物品类型', width: '10%', sort: true}
+                , {field: 'goodsName', title: '物品名称', width: '10%', sort: true}
+                , {field: 'goodsNum', title: '物品数量', width: '10%', sort: true}
+                , {field: 'client', title: '客户', width: '10%', sort: true}
+                , {field: 'despatchMode', title: '发货方式', width: '10%', sort: true}
+                , {field: 'salesman', title: '业务员', width: '10%', sort: true}
+                , {field: 'price', title: '单价', width: '10%', sort: true}
+                , {field: 'money', title: '结算金额', width: '10%', sort: true}
+                , {field: 'clientAddress', title: '客户地址', width: '10%', sort: true}
+                , {field: 'remark', title: '备注', width: '10%', sort: true}
+                , {field: 'date', title: '出库时间', width: '10%', sort: true}
+                // ,{field: 'del', title: '出库', width: '30%', sort: true,toolbar:'#del'}
+            ]]
+        });
+        $("#add").click(function () {
+            layer.open({
+                type: 2
+                , title: '入库'
+                , area: ['500px', '300px']
+                , content: ["repertory/add", "no"]
+                , cancel: function () {
+                    userinfos.reload();
+                }
+
+            })
+        });
+        table.on('tool(repertory)', function (obj) {
+            var data = obj.data;
+            console.log(data);
+            layer.open({
+                type: 1
+                ,
+                title: '山西兴旺盛轮胎物质有限公司出库单'
+                ,
+                area: ['800px', '500px']
+                // ,toolbar:true
+                // ,defaultToolbar:['print']
+                ,
+                content: '<table id="print"width="100%" cellspacing="0">' +
+                '   <tr align="center">' +
+                '       <td align="center" colspan="8">山西兴旺盛轮胎物质有限公司出库单</td>' +
+                '   </tr><tr>' +
+                '       <td colspan="5">业务员：' + data.salesman + '</td>' +
+                '       <td colspan="3">发货方式：' + data.despatchMode + '</td>' +
+                '   </tr><tr>' +
+                '       <td colspan="3">客户：' + data.client + '</td>' +
+                '       <td colspan="4">日期：' + data.date + '</td>' +
+                '       <td colspan="1">回力部</td>' +
+                '   </tr><tr style="border:1px solid #000000; ">' +
+                '       <td colspan="1">货位</td>' +
+                '       <td>类型</td>' +
+                '       <td>商品</td>' +
+                '       <td>单位</td>' +
+                '       <td>数量</td>' +
+                '       <td>单价</td>' +
+                '       <td>结算金额</td>' +
+                '       <td>备注</td>' +
+                '   </tr><tr border-bottom: 1px solid red;>' +
+                '       <td colspan="1">' + data.goodsAllocation + '</td>' +
+                '       <td>' + data.goodsType + '</td>' +
+                '       <td>' + data.goodsName + '</td>' +
+                '       <td>条</td>' +
+                '       <td>' + data.goodsNum + '</td>' +
+                '       <td>' + data.price + '</td>' +
+                '       <td>' + data.money + '</td>' +
+                '       <td>' + data.remark + '</td>' +
+                '   </trcellspacing>' +
+                '</table><input type="button" onclick="printTable()" value="打印"/>'
+                ,
+                cancel: function () {
+                    userinfos.reload();
+                }
+
+            })
+        })
+
+
+        // table.on('tool(ssssss)',function (obj) {
+        //         var layEvent = obj.event;
+        //         var data = obj.data;
+        //         console.log(data);
+        // })
+
+        // table.on('tool(repertory)',function (obj) {
+        //     var layEvent = obj.event;
+        //     var data = obj.data;
+        //     console.log(data);
+        //     if(layEvent==='del'){
+        //         // layer.confirm("确定删除？",function (index) {
+        //             // obj.del();
+        //             // layer.close(index);
+        //             $.ajax({
+        //                 url:"/manage/stockManage/repertory/del",
+        //                 type:"post",
+        //                 dataType:"json",
+        //                 data:{id: JSON.stringify(data.id)},
+        //                 success:function (data) {
+        //                     layer.message(data.message);
+        //                 }
+        //             })
+        //             window.location.reload();
+        //         // })
+        //     }
+        // })
+
+    });
+
+
+    /*]]>*/
+
+
+    //打印表格
+    function printTable() {
+        // alert(123);
+        var tableToPrint = document.getElementById('print');//将要被打印的表格
+        var newWin= window.open("");//新打开一个空窗口
+        newWin.document.write(tableToPrint.outerHTML);//将表格添加进新的窗口
+        newWin.document.close();//在IE浏览器中使用必须添加这一句
+        newWin.focus();//在IE浏览器中使用必须添加这一句
+
+        newWin.print();//打印
+        newWin.close();//关闭窗口
+    }
+</script>
+</body>
+</html>
