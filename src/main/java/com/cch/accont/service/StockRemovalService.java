@@ -34,6 +34,11 @@ public interface StockRemovalService extends BaseService<StockRemoval,String> {
      * @return
      */
     List<StockRemoval> listAll() ;
+    /**
+     * 根据订单号查询所有出库记录
+     * @return
+     */
+    List<StockRemoval> listByOrderNum(String orderNum) ;
 
 //    /**
 //     * 获取用户的角色

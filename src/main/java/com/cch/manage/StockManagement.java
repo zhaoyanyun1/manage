@@ -1,6 +1,8 @@
 package com.cch.manage;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.cch.accont.service.RepertoryService;
 import com.cch.accont.service.StockRemovalService;
 import com.cch.accont.service.SupplierService;
@@ -18,6 +20,7 @@ import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 /**
  * 入库管理
@@ -124,7 +127,8 @@ public class StockManagement {
     @GetMapping(value = "/repertory/out")
     public String toRepertoryDel(Model model) {
 //        Repertory repertory = repertoryService.getByid(id);
-        model.addAttribute("repertorys", repertoryService.findAll());
+        List<Repertory> repertorys = repertoryService.findAll();
+        model.addAttribute("repertorys", repertorys);
 //        model.addAttribute("repertory",repertory);
         return "/manage/repertory/out";
     }
@@ -174,12 +178,17 @@ public class StockManagement {
         Repertory repertory = JSON.parseObject(out, Repertory.class);
         StockRemoval stockRemoval = JSON.parseObject(out, StockRemoval.class);
         System.out.println(out);
-        Repertory repertory1 = repertoryService.getByid(repertory.getId());
+        Repertory repertory1 = repertoryService.getBygoodsName(repertory.getGoodsName(),repertory.getSupplier());
+        String orderNum = stockRemoval.getOrderNum();
         if (repertory1 != null) {
             repertory1.setGoodsNum(repertory1.getGoodsNum() - repertory.getGoodsNum());
             repertoryService.update(repertory1);
 
 //            StockRemoval stockRemoval = new StockRemoval();
+            if(orderNum==null || orderNum.equals("")){
+                orderNum = getOrderIdByTime();
+            }
+            stockRemoval.setOrderNum(orderNum);
             stockRemoval.setId(null);
             stockRemoval.setGoodsName(repertory.getGoodsName());
             stockRemoval.setGoodsNum(repertory.getGoodsNum());
@@ -189,7 +198,8 @@ public class StockManagement {
             stockRemoval.setState("1");
             stockRemovalService.save(stockRemoval);
         }
-        return new AjaxReturn(0, "出库成功");
+
+        return new AjaxReturn(0, orderNum);
     }
 
 
@@ -209,5 +219,32 @@ public class StockManagement {
             e.printStackTrace();
             return new AjaxReturn(1, "删除失败！！");
         }
+    }
+    /**
+     * 打印出库单
+     *
+     * @param
+     * @return
+     */
+    @GetMapping(value = "/print")
+    public String print(@RequestParam String orderNum,Model model) {
+        List<StockRemoval> stockRemovals = stockRemovalService.listByOrderNum(orderNum);
+
+        model.addAttribute("stockRemovals",stockRemovals);
+        return "/manage/repertory/print";
+    }
+
+    /**
+     * 生成随机订单号
+     */
+    public static String getOrderIdByTime() {
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmss");
+        String newDate=sdf.format(new Date());
+        String result="";
+        Random random=new Random();
+        for(int i=0;i<3;i++){
+            result+=random.nextInt(10);
+        }
+        return newDate+result;
     }
 }

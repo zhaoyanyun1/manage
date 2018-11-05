@@ -31,7 +31,8 @@
             , url: 'list' //数据接口
             , method: 'post'
             , cols: [[ //表头
-                {field: 'goodsAllocation', title: '货位', width: '10%', sort: true, event: 'ssssss'}
+                // {field: 'id', title: 'id', width: '4%', sort: true, type:'checkbox' },
+                {field: 'goodsAllocation', title: '货位', width: '10%', sort: true, event: 'ssssss' }
                 , {field: 'goodsType', title: '物品类型', width: '10%', sort: true}
                 , {field: 'goodsName', title: '物品名称', width: '10%', sort: true}
                 , {field: 'goodsNum', title: '物品数量', width: '10%', sort: true}
@@ -43,6 +44,7 @@
                 , {field: 'clientAddress', title: '客户地址', width: '10%', sort: true}
                 , {field: 'remark', title: '备注', width: '10%', sort: true}
                 , {field: 'date', title: '出库时间', width: '10%', sort: true}
+                , {field: 'orderNum', title: '订单号', width: '10%', sort: true}
                 // ,{field: 'del', title: '出库', width: '30%', sort: true,toolbar:'#del'}
             ]]
         });
@@ -62,51 +64,65 @@
             var data = obj.data;
             console.log(data);
             layer.open({
-                type: 1
-                ,
-                title: '山西兴旺盛轮胎物质有限公司出库单'
-                ,
+                type: 2,
+                title: '山西兴旺盛轮胎物质有限公司出库单',
                 area: ['800px', '500px']
-                // ,toolbar:true
-                // ,defaultToolbar:['print']
-                ,
-                content: '<table id="print"width="100%" cellspacing="0">' +
-                '   <tr align="center">' +
-                '       <td align="center" colspan="8">山西兴旺盛轮胎物质有限公司出库单</td>' +
-                '   </tr><tr>' +
-                '       <td colspan="5">业务员：' + data.salesman + '</td>' +
-                '       <td colspan="3">发货方式：' + data.despatchMode + '</td>' +
-                '   </tr><tr>' +
-                '       <td colspan="3">客户：' + data.client + '</td>' +
-                '       <td colspan="4">日期：' + data.date + '</td>' +
-                '       <td colspan="1">回力部</td>' +
-                '   </tr><tr style="border:1px solid #000000; ">' +
-                '       <td colspan="1">货位</td>' +
-                '       <td>类型</td>' +
-                '       <td>商品</td>' +
-                '       <td>单位</td>' +
-                '       <td>数量</td>' +
-                '       <td>单价</td>' +
-                '       <td>结算金额</td>' +
-                '       <td>备注</td>' +
-                '   </tr><tr border-bottom: 1px solid red;>' +
-                '       <td colspan="1">' + data.goodsAllocation + '</td>' +
-                '       <td>' + data.goodsType + '</td>' +
-                '       <td>' + data.goodsName + '</td>' +
-                '       <td>条</td>' +
-                '       <td>' + data.goodsNum + '</td>' +
-                '       <td>' + data.price + '</td>' +
-                '       <td>' + data.money + '</td>' +
-                '       <td>' + data.remark + '</td>' +
-                '   </trcellspacing>' +
-                '</table><input type="button" onclick="printTable()" value="打印"/>'
-                ,
-                cancel: function () {
+                , content: ["/manage/stockManage/print?orderNum="+data.orderNum, "no"]
+                , cancel: function () {
                     userinfos.reload();
                 }
 
             })
         })
+        // table.on('tool(repertory)', function (obj) {
+        //     var data = obj.data;
+        //     console.log(data);
+        //     layer.open({
+        //         type: 1
+        //         ,
+        //         title: '山西兴旺盛轮胎物质有限公司出库单'
+        //         ,
+        //         area: ['800px', '500px']
+        //         // ,toolbar:true
+        //         // ,defaultToolbar:['print']
+        //         ,
+        //         content: '<table id="print"width="100%" cellspacing="0">' +
+        //         '   <tr align="center">' +
+        //         '       <td align="center" colspan="8">山西兴旺盛轮胎物质有限公司出库单</td>' +
+        //         '   </tr><tr>' +
+        //         '       <td colspan="5">业务员：' + data.salesman + '</td>' +
+        //         '       <td colspan="3">发货方式：' + data.despatchMode + '</td>' +
+        //         '   </tr><tr>' +
+        //         '       <td colspan="3">客户：' + data.client + '</td>' +
+        //         '       <td colspan="4">日期：' + data.date + '</td>' +
+        //         '       <td colspan="1">回力部</td>' +
+        //         '   </tr><tr style="border:1px solid #000000; ">' +
+        //         '       <td colspan="1">货位</td>' +
+        //         '       <td>类型</td>' +
+        //         '       <td>商品</td>' +
+        //         '       <td>单位</td>' +
+        //         '       <td>数量</td>' +
+        //         '       <td>单价</td>' +
+        //         '       <td>结算金额</td>' +
+        //         '       <td>备注</td>' +
+        //         '   </tr><tr border-bottom: 1px solid red;>' +
+        //         '       <td colspan="1">' + data.goodsAllocation + '</td>' +
+        //         '       <td>' + data.goodsType + '</td>' +
+        //         '       <td>' + data.goodsName + '</td>' +
+        //         '       <td>条</td>' +
+        //         '       <td>' + data.goodsNum + '</td>' +
+        //         '       <td>' + data.price + '</td>' +
+        //         '       <td>' + data.money + '</td>' +
+        //         '       <td>' + data.remark + '</td>' +
+        //         '   </trcellspacing>' +
+        //         '</table><input type="button" onclick="printTable()" value="打印"/>'
+        //         ,
+        //         cancel: function () {
+        //             userinfos.reload();
+        //         }
+        //
+        //     })
+        // })
 
 
         // table.on('tool(ssssss)',function (obj) {

@@ -37,6 +37,11 @@ public class StockRemovalServiceImpl extends BaseServiceImpl<StockRemoval,String
         return stockRemovalMapper.findAll(new StockRemoval());
     }
 
+    @Override
+    public List<StockRemoval> listByOrderNum(String orderNum) {
+        return stockRemovalMapper.listByOrderNum(orderNum);
+    }
+
 //    public List<Role> getRoleList(String  userId) {
 //        return userMapper.getRoleList(userId);
 //    }

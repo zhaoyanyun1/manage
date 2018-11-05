@@ -5,12 +5,31 @@ import com.cch.entity.Repertory;
 import com.cch.entity.StockRemoval;
 import org.apache.ibatis.annotations.*;
 
+import java.util.List;
+
 /**
  * Created by Administrator on 2018/3/14.
  *
  */
 @Mapper
 public interface StockRemovalMapper extends BaseMapper<StockRemoval,String> {
+
+        /**
+     * 根据订单号查询所有出库记录
+     * @param orderNum
+     * @return
+     */
+    @Select("SELECT * FROM manage.t_stockremoval where order_num=#{orderNum} ")
+    @Results({
+            @Result(property = "orderNum", column = "order_num"),
+            @Result(property = "goodsName", column = "goods_name"),
+            @Result(property = "goodsType", column = "goods_type"),
+            @Result(property = "goodsAllocation", column = "goods_allocation"),
+            @Result(property = "goodsNum", column = "goods_num"),
+            @Result(property = "despatchMode", column = "despatch_mode"),
+            @Result(property = "clientAddress", column = "client_address"),
+    })
+    List<StockRemoval> listByOrderNum(@Param("orderNum") String orderNum);
 
 //    /**
 //     * 根据用户名获取用户
