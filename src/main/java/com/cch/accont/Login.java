@@ -2,7 +2,6 @@ package com.cch.accont;
 
 import com.cch.accont.service.UserService;
 import com.cch.entity.User;
-import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +14,8 @@ import javax.servlet.http.HttpSession;
 public class Login {
     @Resource
     private UserService userService;
+
+
 
     @PostMapping(value = "/login")
     public String login(HttpServletRequest request){
@@ -57,10 +58,9 @@ public class Login {
     }
 
 
+
     @GetMapping(value = "/loginOut")
     public String loginout(HttpSession session) {
-//        SecurityUtils.getSubject().getSession().removeAttribute("user");
-//        SecurityUtils.getSubject ().logout ();
         return "redirect:/";
     }
 }
