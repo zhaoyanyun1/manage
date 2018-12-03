@@ -25,11 +25,11 @@ public class Login {
         System.out.println(user);
         if(user==null){
             request.setAttribute("error","用户名错误！");
-            return "/login";
+            return "login";
         }
         if(!passWd.equals(user.getPassWd())){
             request.setAttribute("error","密码错误！");
-            return "/login";
+            return "login";
         }
         request.setAttribute("name",name);
 //        UsernamePasswordToken token = new UsernamePasswordToken (user.getUserName (),user.Sal(),rememberMe);
@@ -54,7 +54,7 @@ public class Login {
 //
 //            return "/login";
 //        }
-        return "/main";
+        return "main";
     }
 
 

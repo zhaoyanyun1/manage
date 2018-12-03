@@ -9,7 +9,7 @@
 
 <table id="print"width="100%" cellspacing="0"  border="1">
     <tr align="center">
-        <td align="center" colspan="8">山西兴旺盛轮胎物质有限公司出库单</td>
+        <td align="center" colspan="8">山西兴锐意建新有限公司出库单</td>
     </tr>
     <tr>
         <td colspan="5" noWrap="noWrap">业务员：<span th:text="${stockRemovals.get(0).salesman}"></span></td>
@@ -30,7 +30,6 @@
         <td>结算金额</td>
         <td>备注</td>
     </tr>
-
     <tr th:each="c:${stockRemovals}">
         <td colspan="1"><span th:text="${c.goodsAllocation}"></span></td>
         <td><span th:text="${c.goodsType}"></span></td>
@@ -43,25 +42,25 @@
     </tr>
     <tr>
         <td colspan="4">人民币大写合计：</td>
-        <td colspan="2">本页数量：</td>
-        <td colspan="2">本页金额：</td>
+        <td colspan="2">本页数量：<span th:text="${totalNum}"></span></td>
+        <td colspan="2">本页金额：<span th:text="${totalMoney}"></span></td>
     </tr>
     <tr>
         <td>购方电话：</td>
         <td>地址：</td>
     </tr>
     <tr>
-        <td>告方电话：0354-2466566</td>
-        <td>地址：晋中开发区三晋国际城19栋3号／5</td>
-        <td>合计数量：</td>
-        <td>合计金额：</td>
+        <td>告方电话：13453126131</td>
+        <td>地址：蓝海汽配城</td>
+        <td>合计数量：<span th:text="${totalNum}"></span></td>
+        <td colspan="5">合计金额：<span th:text="${totalMoney}"></span></td>
     </tr>
     <tr>
         <td>开票人：</td>
         <td>收款人：</td>
         <td>提货人：</td>
         <td>发货人：</td>
-        <td>客户签收：</td>
+        <td colspan="4">客户签收：</td>
     </tr>
 </table>
 <input type="button" onclick="printTable()" value="打印"/>

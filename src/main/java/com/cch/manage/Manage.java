@@ -21,19 +21,19 @@ public class Manage {
     @GetMapping(value = "/client")
     public String client() {
 
-        return "/manage/in";
+        return "manage/in";
     }
 
     @GetMapping(value = "/userManage")
     public String userManage(){
 
 
-        return "/manage/userinfo/usermanage";
+        return "manage/userinfo/usermanage";
     }
     @GetMapping(value = "/add")
     public String add(){
 
 
-        return "/manage/userinfo/add";
+        return "manage/userinfo/add";
     }
 }
