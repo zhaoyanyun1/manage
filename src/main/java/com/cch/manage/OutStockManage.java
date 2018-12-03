@@ -5,6 +5,7 @@ import com.cch.accont.service.SupplierService;
 import com.cch.base.Table;
 import com.cch.entity.Repertory;
 import com.cch.entity.StockRemoval;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +32,7 @@ public class OutStockManage {
 
 
     /**
-     * 库存列表
+     * 出库纪录列表
      * @param page
      * @param limit
      * @return
@@ -40,11 +41,9 @@ public class OutStockManage {
     @ResponseBody
     public Table repertorylist(@RequestParam int page , @RequestParam int limit){
         PageHelper.startPage(page,limit);
-        Table table = new Table();
         List<StockRemoval> list= stockRemovalService.listAll();
-        table.setData(list);
-        table.setCount(list.size());
+        Page<StockRemoval> lists = (Page<StockRemoval>) list;
 
-        return table;
+        return new Table((int) lists.getTotal(), lists);
     }
 }

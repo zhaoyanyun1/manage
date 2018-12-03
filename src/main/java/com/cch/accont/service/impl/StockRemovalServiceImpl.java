@@ -34,7 +34,7 @@ public class StockRemovalServiceImpl extends BaseServiceImpl<StockRemoval,String
 //    }*/
 
     public List<StockRemoval> listAll() {
-        return stockRemovalMapper.findAll(new StockRemoval());
+        return stockRemovalMapper.listAllByOrderDateDesc();
     }
 
     @Override

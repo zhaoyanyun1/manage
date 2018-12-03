@@ -31,6 +31,25 @@ public interface StockRemovalMapper extends BaseMapper<StockRemoval,String> {
     })
     List<StockRemoval> listByOrderNum(@Param("orderNum") String orderNum);
 
+
+
+    /**
+     * 查询所有出库记录根据出库日期排序
+     * @param orderNum
+     * @return
+     */
+    @Select("SELECT * FROM manage.t_stockremoval order by date desc")
+    @Results({
+            @Result(property = "orderNum", column = "order_num"),
+            @Result(property = "goodsName", column = "goods_name"),
+            @Result(property = "goodsType", column = "goods_type"),
+            @Result(property = "goodsAllocation", column = "goods_allocation"),
+            @Result(property = "goodsNum", column = "goods_num"),
+            @Result(property = "despatchMode", column = "despatch_mode"),
+            @Result(property = "clientAddress", column = "client_address"),
+    })
+    List<StockRemoval> listAllByOrderDateDesc();
+
 //    /**
 //     * 根据用户名获取用户
 //     * @param goodsName

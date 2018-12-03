@@ -14,7 +14,7 @@ import java.util.Date;
 public class StockRemoval extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String goodsName;//物品名称

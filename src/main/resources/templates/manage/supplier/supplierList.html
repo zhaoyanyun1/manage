@@ -30,6 +30,8 @@
             , id: 'supplier'
             , url: 'supplier/list' //数据接口
             , method: 'post'
+            ,page: true //开启分页
+            , size: 'sm'
             , cols: [[ //表头
                 {field: 'supplierName', title: '供货商名称', width: '30%', sort: true}
                 ,{field: 'supplierTel', title: '供货商电话', width: '30%', sort: true}

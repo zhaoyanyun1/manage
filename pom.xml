@@ -69,7 +69,7 @@
             <artifactId>spring-boot-starter-tomcat</artifactId>
             <version>${spring-boot.version}</version>
             <!--打包时取消注解 idea的bug-->
-            <!--<scope>provided</scope>-->
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -191,6 +191,7 @@
         <!--</plugins>-->
     <!--</build>-->
     <build>
+        <finalName>manager</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

@@ -38,21 +38,22 @@
     </div>
     <div id="detail">
         <div class="layui-form-item">
-            <label class="layui-form-label">物品类型</label>
-            <div class="layui-input-inline">
-                <select name="goodsType" id="goodsType" class="select">
-                    <option value="">请选择</option>
-                    <option th:each="c:${repertorys}" th:text="${c.goodsType}" th:value="${c.goodsType}" onchange="wuping(this)"></option>
-                </select>
-            </div>
-            <label class="layui-form-label">物品名称</label>
+            <label class="layui-form-label">供货商</label>
             <div class="layui-input-inline">
 
-                <select name="goodsName" id="goodsName">
+                <select lay-filter="select"  name="supplier" id="supplier">
                     <option value="">请选择</option>
-                    <option th:each="c:${repertorys}" th:text="${c.goodsName}" th:value="${c.goodsName}"></option>
+                    <option th:each="c:${suppliers}" th:text="${c.supplierName}" th:value="${c.supplierName}"></option>
                 </select>
             </div>
+            <label class="layui-form-label">物品类型</label>
+            <div class="layui-input-inline">
+                <select lay-filter="select_type" name="goodsType" id="goodsType" class="select">
+                    <option value="">请选择</option>
+                    <!--<option th:each="c:${repertorys}" th:text="${c.goodsType}" th:value="${c.goodsType}" onchange="wuping()"></option>-->
+                </select>
+            </div>
+
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">物品数量</label>
@@ -60,12 +61,12 @@
                 <input type="text" name="goodsNum" required="required" lay-verify="required" placeholder="物品数量"
                        autocomplete="off" class="layui-input"/>
             </div>
-            <label class="layui-form-label">供货商</label>
+            <label class="layui-form-label">物品名称</label>
             <div class="layui-input-inline">
 
-                <select name="supplier" id="supplier">
+                <select lay-filter="select_name" name="goodsName" id="goodsName">
                     <option value="">请选择</option>
-                    <option th:each="c:${repertorys}" th:text="${c.supplier}" th:value="${c.supplier}"></option>
+                    <!--<option th:each="c:${repertorys}" th:text="${c.goodsName}" th:value="${c.goodsName}"></option>-->
                 </select>
             </div>
             <label class="layui-form-label">单价</label>
@@ -117,11 +118,11 @@
                 data: JSON.stringify(data.field),
                 success: function (data) {
                     // $("#addSupplier")[0].reset();
-                    $("input[name='goodsAllocation']").attr("readonly","readonly");
-                    $("input[name='salesman']").attr("readonly","readonly");
-                    $("input[name='client']").attr("readonly","readonly");
-                    $("input[name='clientAddress']").attr("readonly","readonly");
-                    $("input[name='despatchMode']").attr("readonly","readonly");
+                    $("input[name='goodsAllocation']").attr("readonly", "readonly");
+                    $("input[name='salesman']").attr("readonly", "readonly");
+                    $("input[name='client']").attr("readonly", "readonly");
+                    $("input[name='clientAddress']").attr("readonly", "readonly");
+                    $("input[name='despatchMode']").attr("readonly", "readonly");
 
 
                     $("input[name='goodsNum']").val("");
@@ -130,11 +131,10 @@
                     $("input[name='remark']").val("");
 
 
-
                     // $("select[name='goodsType']").val("");
                     // $("#goodsName").val("").select2();
                     // $("#supplier").val("").select2();
-
+                    form.render('select');
                     layer.msg(data.message);
                     $("#orderNum").val(data.message);
 
@@ -142,11 +142,43 @@
             });
             return false;
         });
+        form.on('select(select)',function (data) {
+            var repertorys = [[${repertorys}]];
+            $("#goodsType").html("");
+            $("#goodsName").html("");
+            form.render('select');
+            $.each(repertorys,function (key,val) {
+                if (val.supplier==data.value){
+                    var option1 =$("<option>").val(val.goodsType).text(val.goodsType);
+                    $("#goodsType").append(option1);
+                    form.render('select');
+                }
+            });
+            $("#goodsType").get(0).selectedIndex=0;
+        });
 
+        form.on('select(select_type)',function(data){
+            var repertorys = [[${repertorys}]];
+            $("#goodsName").html("");
+            form.render('select');
+            $.each(repertorys,function (key,val) {
+                if (val.goodsType==data.value){
+                    var option1 =$("<option>").val(val.goodsName).text(val.goodsName);
+                    $("#goodsName").append(option1);
+                    form.render('select');
+                }
+            });
+            $("#goodsName").get(0).selectedIndex=0;
+        })
     });
-    function wuping(data){
-        alert(data);
+
+
+
+    function wuping() {
+        alert("123");
+        // alert(thiz.val());
     }
+
     /*]]>*/
 </script>
 </html>
