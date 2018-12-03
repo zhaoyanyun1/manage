@@ -9,8 +9,8 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <!--<packagingexample>jar</packagingexample>-->
-    <name>demo</name>
-    <description>Demo project for Spring Boot</description>
+    <!--<name>demo</name>-->
+    <!--<description>Demo project for Spring Boot</description>-->
 
 
     <!--<parent>-->
@@ -170,8 +170,6 @@
             <artifactId>jxl</artifactId>
             <version>2.6.12</version>
         </dependency>
-
-
     </dependencies>
 
     <!--<build>-->
@@ -191,7 +189,7 @@
         <!--</plugins>-->
     <!--</build>-->
     <build>
-        <finalName>manager</finalName>
+        <!--<finalName>manager</finalName>-->
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
