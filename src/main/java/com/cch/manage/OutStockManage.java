@@ -26,7 +26,7 @@ public class OutStockManage {
     @GetMapping(value = "/toOutlist")
     public String toOutList(){
 
-        return "/manage/out/outlist";
+        return "manage/out/outlist";
     }
 
 

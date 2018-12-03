@@ -1,8 +1,6 @@
 package com.cch.manage;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.cch.accont.service.RepertoryService;
 import com.cch.accont.service.StockRemovalService;
 import com.cch.accont.service.SupplierService;
@@ -17,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -43,7 +42,7 @@ public class StockManagement {
     @GetMapping(value = "/supplier")
     public String managein() {
 
-        return "/manage/Supplier/supplierList";
+        return "manage/supplier/supplierList";
     }
 
     /**
@@ -54,7 +53,7 @@ public class StockManagement {
     @GetMapping(value = "/repertory")
     public String repertory() {
 
-        return "/manage/Repertory/repertory";
+        return "manage/repertory/repertory";
     }
 
     /**
@@ -65,7 +64,7 @@ public class StockManagement {
     @GetMapping(value = "/stockManage")
     public String stockManage() {
 
-        return "/manage/stockManage/stockManage";
+        return "manage/stockManage/stockManage";
     }
 
     /**
@@ -109,13 +108,13 @@ public class StockManagement {
     @GetMapping(value = "/supplier/add")
     public String toSupplierAdd() {
 
-        return "/manage/Supplier/add";
+        return "manage/supplier/add";
     }
 
     @GetMapping(value = "/repertory/add")
     public String toRepertoryAdd(Model model) {
         model.addAttribute("suppliers", supplierService.findAll());
-        return "/manage/repertory/add";
+        return "manage/repertory/add";
     }
 
     /**
@@ -130,7 +129,7 @@ public class StockManagement {
         List<Repertory> repertorys = repertoryService.findAll();
         model.addAttribute("repertorys", repertorys);
 //        model.addAttribute("repertory",repertory);
-        return "/manage/repertory/out";
+        return "manage/repertory/out";
     }
 
     /**
@@ -230,8 +229,18 @@ public class StockManagement {
     public String print(@RequestParam String orderNum,Model model) {
         List<StockRemoval> stockRemovals = stockRemovalService.listByOrderNum(orderNum);
 
+        BigDecimal totalMoney = new BigDecimal(0);
+        BigDecimal totalNum = new BigDecimal(0);
+        for (StockRemoval stockRemoval : stockRemovals) {
+            BigDecimal money = new BigDecimal(stockRemoval.getMoney());
+            BigDecimal num = new BigDecimal(stockRemoval.getGoodsNum());
+            totalMoney = totalMoney.add(money);
+            totalNum = totalNum.add(num);
+        }
+        model.addAttribute("totalMoney",totalMoney);
+        model.addAttribute("totalNum",totalNum);
         model.addAttribute("stockRemovals",stockRemovals);
-        return "/manage/repertory/print";
+        return "manage/repertory/print";
     }
 
     /**
