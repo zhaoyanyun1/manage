@@ -10,7 +10,7 @@
 
 <table id="repertory" lay-filter="repertory"></table>
 <script type="text/html" id="del">
-    <a class="layui-btn  layui-btn-xs" lay-event="del">出库</a>
+    <a class="layui-btn  layui-btn-xs" lay-event="del">删除</a>
 </script>
 <div id="form" style="display: none">
 
@@ -47,7 +47,7 @@
                 , {field: 'remark', title: '备注', width: '10%', sort: true}
                 , {field: 'date', title: '出库时间', width: '10%', sort: true}
                 , {field: 'orderNum', title: '订单号', width: '10%', sort: true}
-                // ,{field: 'del', title: '出库', width: '30%', sort: true,toolbar:'#del'}
+                ,{field: 'del', title: '删除', width: '30%', sort: true,toolbar:'#del'}
             ]]
         });
         $("#add").click(function () {
@@ -63,19 +63,46 @@
             })
         });
         table.on('tool(repertory)', function (obj) {
+            var layEvent = obj.event;
             var data = obj.data;
             console.log(data);
-            layer.open({
-                type: 2,
-                title: '山西锐意建新有限公司出库单',
-                area: ['800px', '500px']
-                , content: ["/manage/stockManage/print?orderNum="+data.orderNum, "no"]
-                , cancel: function () {
-                    userinfos.reload();
-                }
+            if (layEvent === 'ssssss') {
+                layer.open({
+                    type: 2,
+                    title: '山西锐意建新有限公司出库单',
+                    area: ['800px', '500px']
+                    , content: ["/manage/stockManage/print?orderNum="+data.orderNum, "no"]
+                    , cancel: function () {
+                        userinfos.reload();
+                    }
 
-            })
+                })
+            }
+            if (layEvent === 'del') {
+                layer.confirm("确定删除？", function (index) {
+                    obj.del();
+                    layer.close(index);
+                    $.ajax({
+                        url: 'del',
+                        type: "post",
+                        dataType: "json",
+                        data: {id: JSON.stringify(data.id)},
+                        success: function (data) {
+                            layer.message(data.message);
+                            window.location.reload();
+                        }
+                    });
+                })
+            }
+
         })
+        // table.on('tool(repertory)', function (obj) {
+        //     var layEvent = obj.event;
+        //     var data = obj.data;
+        //     console.log(data);
+        //
+        //
+        // })
 
 
     });

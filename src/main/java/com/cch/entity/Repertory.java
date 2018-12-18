@@ -18,6 +18,7 @@ public class Repertory extends BaseEntity {
 
     private String goodsName;//物品名称
     private String goodsType;//物品类型
+    private String specification;//规格
 
     private Long goodsNum;//物品数量
 
@@ -25,6 +26,14 @@ public class Repertory extends BaseEntity {
 
     private String state;//状态
 
+
+    public String getSpecification() {
+        return specification;
+    }
+
+    public void setSpecification(String specification) {
+        this.specification = specification;
+    }
 
     public String getGoodsType() {
         return goodsType;

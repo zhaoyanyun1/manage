@@ -27,34 +27,18 @@ import java.util.Random;
 @Controller
 @RequestMapping(value = "/stockManage")
 public class StockManagement {
+
+
+    @Resource
+    private StockRemovalService stockRemovalService;
+
     @Resource
     private SupplierService supplierService;
     @Resource
     private RepertoryService repertoryService;
-    @Resource
-    private StockRemovalService stockRemovalService;
 
-    /**
-     * 供货商管理
-     *
-     * @return
-     */
-    @GetMapping(value = "/supplier")
-    public String managein() {
 
-        return "manage/supplier/supplierList";
-    }
 
-    /**
-     * 库存
-     *
-     * @return
-     */
-    @GetMapping(value = "/repertory")
-    public String repertory() {
-
-        return "manage/repertory/repertory";
-    }
 
     /**
      * 入库管理
@@ -67,83 +51,9 @@ public class StockManagement {
         return "manage/stockManage/stockManage";
     }
 
-    /**
-     * 供货商列表
-     *
-     * @param page
-     * @param limit
-     * @return
-     */
-    @PostMapping(value = "/supplier/list")
-    @ResponseBody
-    public Table list(@RequestParam int page, @RequestParam int limit) {
-        PageHelper.startPage(page, limit);
-        Table table = new Table();
-        List<Supplier> list = supplierService.listAll();
-        table.setData(list);
-        table.setCount(list.size());
 
-        return table;
-    }
 
-    /**
-     * 库存列表
-     *
-     * @param page
-     * @param limit
-     * @return
-     */
-    @PostMapping(value = "/repertory/list")
-    @ResponseBody
-    public Table repertorylist(@RequestParam int page, @RequestParam int limit) {
-        PageHelper.startPage(page, limit);
-        Table table = new Table();
-        List<Repertory> list = repertoryService.listAll();
-        table.setData(list);
-        table.setCount(list.size());
 
-        return table;
-    }
-
-    @GetMapping(value = "/supplier/add")
-    public String toSupplierAdd() {
-
-        return "manage/supplier/add";
-    }
-
-    @GetMapping(value = "/repertory/add")
-    public String toRepertoryAdd(Model model) {
-        model.addAttribute("suppliers", supplierService.findAll());
-        return "manage/repertory/add";
-    }
-
-    /**
-     * 出库
-     *
-     * @param
-     * @return
-     */
-    @GetMapping(value = "/repertory/out")
-    public String toRepertoryDel(Model model) {
-//        Repertory repertory = repertoryService.getByid(id);
-        List<Repertory> repertorys = repertoryService.findAll();
-        model.addAttribute("repertorys", repertorys);
-//        model.addAttribute("repertory",repertory);
-        return "manage/repertory/out";
-    }
-
-    /**
-     * 添加供货商
-     *
-     * @param supplier
-     * @return
-     */
-    @PostMapping(value = "/supplier/add")
-    @ResponseBody
-    public AjaxReturn addSupplier(@RequestBody Supplier supplier) {
-        supplierService.save(supplier);
-        return new AjaxReturn(0, "添加成功");
-    }
 
     /**
      * 入库
@@ -202,23 +112,7 @@ public class StockManagement {
     }
 
 
-    /**
-     * 删除供货商
-     *
-     * @param supplierName
-     * @return
-     */
-    @PostMapping(value = "/supplier/delete")
-    @ResponseBody
-    public AjaxReturn delSupplier(@RequestParam String supplierName) {
-        try {
-            supplierService.delete(supplierName);
-            return new AjaxReturn(0, "删除成功！！");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new AjaxReturn(1, "删除失败！！");
-        }
-    }
+
     /**
      * 打印出库单
      *
@@ -256,4 +150,5 @@ public class StockManagement {
         }
         return newDate+result;
     }
+
 }

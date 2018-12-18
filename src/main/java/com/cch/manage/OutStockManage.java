@@ -2,6 +2,7 @@ package com.cch.manage;
 
 import com.cch.accont.service.StockRemovalService;
 import com.cch.accont.service.SupplierService;
+import com.cch.base.AjaxReturn;
 import com.cch.base.Table;
 import com.cch.entity.Repertory;
 import com.cch.entity.StockRemoval;
@@ -21,7 +22,7 @@ public class OutStockManage {
     private StockRemovalService stockRemovalService;
 
     /**
-     * 供货商管理
+     * 出库纪录
      * @return
      */
     @GetMapping(value = "/toOutlist")
@@ -45,5 +46,27 @@ public class OutStockManage {
         Page<StockRemoval> lists = (Page<StockRemoval>) list;
 
         return new Table((int) lists.getTotal(), lists);
+    }
+
+
+    /**
+     * 删除出库纪录
+     *
+     * @param id
+     * @return
+     */
+    @PostMapping(value = "/del")
+    @ResponseBody
+    public AjaxReturn delRepertory(@RequestParam String id) {
+
+        System.out.println("id"+id);
+
+        try{
+
+            stockRemovalService.delete(id);
+        } catch (Exception e){
+            return new AjaxReturn(1, "删除失败！！");
+        }
+        return new AjaxReturn(0, "删除成功！！");
     }
 }

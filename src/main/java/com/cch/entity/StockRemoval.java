@@ -19,6 +19,7 @@ public class StockRemoval extends BaseEntity {
 
     private String goodsName;//物品名称
     private String goodsType;//物品类型
+    private String specification;//物品规格
     private String goodsAllocation;//货位
     private String price;//单价
     private Long goodsNum;//物品数量
@@ -33,6 +34,14 @@ public class StockRemoval extends BaseEntity {
     private String state;//状态
     private String remark;//备注
 
+
+    public String getSpecification() {
+        return specification;
+    }
+
+    public void setSpecification(String specification) {
+        this.specification = specification;
+    }
 
     public String getOrderNum() {
         return orderNum;

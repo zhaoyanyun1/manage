@@ -9,21 +9,21 @@
 
 <table id="print"width="100%" cellspacing="0"  border="1">
     <tr align="center">
-        <td align="center" colspan="8">山西兴锐意建新有限公司出库单</td>
+        <td align="center" colspan="9">山西锐意建新有限公司出库单</td>
     </tr>
     <tr>
         <td colspan="5" noWrap="noWrap">业务员：<span th:text="${stockRemovals.get(0).salesman}"></span></td>
-        <td colspan="3" noWrap="noWrap">发货方式：<span th:text="${stockRemovals.get(0).despatchMode}"></span></td>
+        <td colspan="4" noWrap="noWrap">发货方式：<span th:text="${stockRemovals.get(0).despatchMode}"></span></td>
     </tr>
     <tr>
         <td colspan="1">客户：<span th:text="${stockRemovals.get(0).client}"></span></td>
-        <td colspan="4">日期：<span th:text="${stockRemovals.get(0).date}"></span></td>
-        <td colspan="3">回力部</td>
+        <td colspan="8">日期：<span th:text="${stockRemovals.get(0).date}"></span></td>
     </tr>
     <tr style="border:1px solid #000000; ">
         <td colspan="1">货位</td>
         <td>类型</td>
-        <td>商品</td>
+        <td>品名</td>
+        <td>规格</td>
         <td>单位</td>
         <td>数量</td>
         <td>单价</td>
@@ -35,6 +35,7 @@
         <td colspan="1"><span th:text="${c.goodsAllocation}"></span></td>
         <td><span th:text="${c.goodsType}"></span></td>
         <td><span th:text="${c.goodsName}"></span></td>
+        <td><span th:text="${c.specification}"></span></td>
         <td>条</td>
         <td><span th:text="${c.goodsNum}"></span></td>
         <td><span th:text="${c.price}"></span></td>
@@ -43,24 +44,23 @@
     </tr>
     <tr>
         <td colspan="4">人民币大写合计：</td>
-        <td colspan="2">本页数量：<span th:text="${totalNum}"></span></td>
-        <td colspan="2">本页金额：<span th:text="${totalMoney}"></span></td>
+        <td colspan="2">合计数量：<span th:text="${totalNum}"></span></td>
+        <td colspan="3">合计金额：<span th:text="${totalMoney}"></span></td>
     </tr>
     <tr>
         <td>购方电话：</td>
-        <td>地址：</td>
+        <td colspan="7">地址：</td>
+        <td>当前应收款账：</td>
     </tr>
     <tr>
-        <td>告方电话：13453126131</td>
-        <td>地址：蓝海汽配城</td>
-        <td>合计数量：<span th:text="${totalNum}"></span></td>
-        <td colspan="5">合计金额：<span th:text="${totalMoney}"></span></td>
+        <td>售方电话：13453126131</td>
+        <td colspan="8">地址：蓝海汽配城</td>
     </tr>
     <tr>
         <td>开票人：</td>
         <td>收款人：</td>
         <td>提货人：</td>
-        <td>发货人：</td>
+        <td colspan="2">发货人：</td>
         <td colspan="4">客户签收：</td>
     </tr>
 </table>

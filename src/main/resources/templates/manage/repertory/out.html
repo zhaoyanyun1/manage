@@ -69,6 +69,14 @@
                     <!--<option th:each="c:${repertorys}" th:text="${c.goodsName}" th:value="${c.goodsName}"></option>-->
                 </select>
             </div>
+            <label class="layui-form-label">物品规格</label>
+            <div class="layui-input-inline">
+
+                <select lay-filter="select_specification" name="specification" id="specification">
+                    <option value="">请选择</option>
+                    <!--<option th:each="c:${repertorys}" th:text="${c.goodsName}" th:value="${c.goodsName}"></option>-->
+                </select>
+            </div>
             <label class="layui-form-label">单价</label>
             <div class="layui-input-inline">
                 <input type="text" name="price" required="required" lay-verify="required" placeholder="单价"
@@ -146,6 +154,7 @@
             var repertorys = [[${repertorys}]];
             $("#goodsType").html("");
             $("#goodsName").html("");
+            $("#specification").html("");
             form.render('select');
             $.each(repertorys,function (key,val) {
                 if (val.supplier==data.value){
@@ -160,6 +169,7 @@
         form.on('select(select_type)',function(data){
             var repertorys = [[${repertorys}]];
             $("#goodsName").html("");
+            $("#specification").html("");
             form.render('select');
             $.each(repertorys,function (key,val) {
                 if (val.goodsType==data.value){
@@ -169,6 +179,20 @@
                 }
             });
             $("#goodsName").get(0).selectedIndex=0;
+        })
+        form.on('select(select_name)',function(data){
+            console.log(data.value)
+            var repertorys = [[${repertorys}]];
+            $("#specification").html("");
+            form.render('select');
+            $.each(repertorys,function (key,val) {
+                if (val.goodsName==data.value){
+                    var option1 =$("<option>").val(val.specification).text(val.specification);
+                    $("#specification").append(option1);
+                    form.render('select');
+                }
+            });
+            $("#specification").get(0).selectedIndex=0;
         })
     });
 
