@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>公司信息管理</title>
+    <div th:include="fragment/head :: head"></div>
+</head>
+<body>
+<!--<a class="layui-btn layui-btn-sm" id="update">修改公司信息</a>-->
+
+<table id="company" lay-filter="company"></table>
+<script type="text/html" id="update">
+    <a class="layui-btn  layui-btn-xs" lay-event="update">修改</a>
+</script>
+<div id="form" style="display: none">
+
+</div>
+
+<script th:src="@{/static/layui/layui.js}"></script>
+<script th:inline="javascript">
+
+    /*<![CDATA[*/
+    layui.use(['table', 'form'], function () {
+        var table = layui.table
+            , $ = layui.$
+            , form = layui.form;
+        //员工
+        var companys = table.render({
+            elem: '#company'
+            , id: 'company'
+            , url: 'company/list' //数据接口
+            , method: 'post'
+            , page: true //开启分页
+            , size: 'sm'
+            , cols: [[ //表头
+                {field: 'companyName', title: '公司名称', width: '30%', sort: true}
+                , {field: 'companyAddress', title: '公司地址', width: '30%', sort: true}
+                , {field: 'companyTel', title: '公司电话', width: '30%', sort: true}
+                , {field: 'update', title: '修改公司信息', width: '30%', sort: true, toolbar: '#update'}
+            ]]
+        });
+
+        table.on('tool(company)', function (obj) {
+            var layEvent = obj.event;
+            var data = obj.data;
+            // console.log(data);
+            if (layEvent === 'update') {
+                console.log(data)
+                layer.open({
+                    type: 2
+                    , title: '修改公司信息'
+                    , area: ['500px', '350px']
+                    , content: ["company/toUpdate?company="+data.companyName, "no"]
+                    , cancel: function () {
+                        companys.reload();
+                    }
+
+                })
+            }
+        })
+
+
+    });
+
+
+    /*]]>*/
+</script>
+</body>
+</html>

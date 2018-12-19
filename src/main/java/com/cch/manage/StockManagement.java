@@ -1,11 +1,14 @@
 package com.cch.manage;
 
 import com.alibaba.fastjson.JSON;
+import com.cch.NumberToCN;
+import com.cch.accont.service.CompanyService;
 import com.cch.accont.service.RepertoryService;
 import com.cch.accont.service.StockRemovalService;
 import com.cch.accont.service.SupplierService;
 import com.cch.base.AjaxReturn;
 import com.cch.base.Table;
+import com.cch.entity.Company;
 import com.cch.entity.Repertory;
 import com.cch.entity.StockRemoval;
 import com.cch.entity.Supplier;
@@ -37,6 +40,8 @@ public class StockManagement {
     @Resource
     private RepertoryService repertoryService;
 
+    @Resource
+    private CompanyService companyService;
 
 
 
@@ -131,6 +136,13 @@ public class StockManagement {
             totalMoney = totalMoney.add(money);
             totalNum = totalNum.add(num);
         }
+        NumberToCN number = new NumberToCN();
+        String daxie = number.number2CNMontrayUnit(totalMoney);
+
+        Company company = companyService.findAll().get(0);
+
+        model.addAttribute("company",company);
+        model.addAttribute("daxie",daxie);
         model.addAttribute("totalMoney",totalMoney);
         model.addAttribute("totalNum",totalNum);
         model.addAttribute("stockRemovals",stockRemovals);

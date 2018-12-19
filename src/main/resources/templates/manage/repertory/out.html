@@ -8,20 +8,20 @@
 <form class="layui-form" method="post" id="addSupplier">
 
     <div class="layui-form-item">
-        <label class="layui-form-label">货位</label>
+        <label class="layui-form-label" style="width: 40px">货位</label>
         <div class="layui-input-inline">
             <input type="text" name="goodsAllocation" required="required" lay-verify="required" placeholder="货位"
-                   autocomplete="off" class="layui-input"/>
+                   autocomplete="off" class="layui-input" style="width: 70%"/>
         </div>
-        <label class="layui-form-label">业务员</label>
+        <label class="layui-form-label" style="width: 50px">业务员</label>
         <div class="layui-input-inline">
             <input type="text" name="salesman" required="required" lay-verify="required" placeholder="业务员"
-                   autocomplete="off" class="layui-input"/>
+                   autocomplete="off" class="layui-input" style="width: 70%"/>
         </div>
-        <label class="layui-form-label">客户</label>
+        <label class="layui-form-label" style="width: 40px">客户</label>
         <div class="layui-input-inline">
             <input type="text" name="client" required="required" lay-verify="required" placeholder="客户"
-                   autocomplete="off" class="layui-input"/>
+                   autocomplete="off" class="layui-input" style="width: 70%"/>
         </div>
     </div>
     <div class="layui-form-item">
@@ -56,11 +56,7 @@
 
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">物品数量</label>
-            <div class="layui-input-inline">
-                <input type="text" name="goodsNum" required="required" lay-verify="required" placeholder="物品数量"
-                       autocomplete="off" class="layui-input"/>
-            </div>
+
             <label class="layui-form-label">物品名称</label>
             <div class="layui-input-inline">
 
@@ -69,6 +65,7 @@
                     <!--<option th:each="c:${repertorys}" th:text="${c.goodsName}" th:value="${c.goodsName}"></option>-->
                 </select>
             </div>
+
             <label class="layui-form-label">物品规格</label>
             <div class="layui-input-inline">
 
@@ -77,6 +74,15 @@
                     <!--<option th:each="c:${repertorys}" th:text="${c.goodsName}" th:value="${c.goodsName}"></option>-->
                 </select>
             </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">物品数量</label>
+            <div class="layui-input-inline">
+                <input type="text" name="goodsNum" required="required" lay-verify="required" placeholder="物品数量"
+                       autocomplete="off" class="layui-input"/>
+            </div>
+
+
             <label class="layui-form-label">单价</label>
             <div class="layui-input-inline">
                 <input type="text" name="price" required="required" lay-verify="required" placeholder="单价"
