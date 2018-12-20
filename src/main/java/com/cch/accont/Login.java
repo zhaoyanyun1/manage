@@ -15,7 +15,10 @@ public class Login {
     @Resource
     private UserService userService;
 
-
+    @GetMapping("/")
+    public String index(){
+        return "login";
+    }
 
     @PostMapping(value = "/login")
     public String login(HttpServletRequest request){
