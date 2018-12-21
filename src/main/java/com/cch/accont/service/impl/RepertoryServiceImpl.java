@@ -22,6 +22,11 @@ public class RepertoryServiceImpl extends BaseServiceImpl<Repertory,String> impl
     public Repertory getBygoodsName(String goodsName,String supplier) {
         return repertoryMapper.getBygoodsName(goodsName,supplier);
     }
+
+    public Repertory getByNTSS(String goodsName, String goodsType, String supplier, String specification) {
+        return repertoryMapper.getNTSS(goodsName,goodsType,supplier,specification);
+    }
+
     public Repertory getByid(Long id) {
         return repertoryMapper.getByid(id);
     }

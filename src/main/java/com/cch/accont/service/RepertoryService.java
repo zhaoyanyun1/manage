@@ -11,11 +11,17 @@ import java.util.List;
  */
 public interface RepertoryService extends BaseService<Repertory,String> {
     /**
-     * 根据物品名称获取物品
+     * 根据物品名称和供货商获取物品
      * @param goodsName
      * @return
      */
     Repertory getBygoodsName(String goodsName,String supplier) ;
+    /**
+     * 根据物品名称，物品类型，物品规格和供货商获取物品
+     * @param goodsName
+     * @return
+     */
+    Repertory getByNTSS(String goodsName,String  goodsType,String supplier,String specification) ;
     /**
      * 根据id获取物品
      * @param id

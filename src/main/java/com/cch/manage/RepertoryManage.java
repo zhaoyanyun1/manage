@@ -75,14 +75,14 @@ public class RepertoryManage {
      * @return
      */
     @GetMapping(value = "/out")
-    public String toRepertoryDel(Model model) {
+    public String toRepertoryOut(Model model) {
 //        Repertory repertory = repertoryService.getByid(id);
         List<Supplier> suppliers = supplierService.findAll();
         List<Repertory> repertorys = repertoryService.findAll();
         model.addAttribute("suppliers", suppliers);
         model.addAttribute("repertorys", repertorys);
 //        model.addAttribute("repertory",repertory);
-        return "manage/repertory/out";
+        return "out";
     }
 
 

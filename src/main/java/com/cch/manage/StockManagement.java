@@ -69,7 +69,7 @@ public class StockManagement {
     @PostMapping(value = "/stockManage/add")
     @ResponseBody
     public AjaxReturn in(@RequestBody Repertory repertory) {
-        Repertory repertory1 = repertoryService.getBygoodsName(repertory.getGoodsName(), repertory.getSupplier());
+        Repertory repertory1 = repertoryService.getByNTSS(repertory.getGoodsName(),repertory.getGoodsType(),repertory.getSupplier(),repertory.getSpecification());
         if (repertory1 != null) {
             repertory1.setGoodsNum(repertory1.getGoodsNum() + repertory.getGoodsNum());
             repertoryService.update(repertory1);
@@ -92,7 +92,7 @@ public class StockManagement {
         Repertory repertory = JSON.parseObject(out, Repertory.class);
         StockRemoval stockRemoval = JSON.parseObject(out, StockRemoval.class);
         System.out.println(out);
-        Repertory repertory1 = repertoryService.getBygoodsName(repertory.getGoodsName(),repertory.getSupplier());
+        Repertory repertory1 = repertoryService.getByNTSS(repertory.getGoodsName(),repertory.getGoodsType(),repertory.getSupplier(),repertory.getSpecification());
         String orderNum = stockRemoval.getOrderNum();
         if (repertory1 != null) {
             repertory1.setGoodsNum(repertory1.getGoodsNum() - repertory.getGoodsNum());

@@ -12,7 +12,7 @@ import org.apache.ibatis.annotations.*;
 public interface RepertoryMapper extends BaseMapper<Repertory,String> {
 
     /**
-     * 根据用户名获取用户
+     * 根根据物品名称和供货商获取物品
      * @param goodsName
      * @return
      */
@@ -34,6 +34,19 @@ public interface RepertoryMapper extends BaseMapper<Repertory,String> {
             @Result(property = "goodsType",column = "goods_type"),
     })
     Repertory getByid(@Param("id") Long id);
+    /**
+     * 根据物品名称，物品类型，物品规格和供货商获取物品
+     *      * @param goodsName
+     * @param
+     * @return
+     */
+    @Select("select * from t_repertory where goods_name=#{goodsName} and goods_type=#{goodsType} and supplier =#{supplier} and specification=#{specification}")
+    @Results({
+            @Result(property = "goodsNum", column = "goods_num"),
+            @Result(property = "goodsName",column = "goods_name"),
+            @Result(property = "goodsType",column = "goods_type"),
+    })
+    Repertory getNTSS(@Param("goodsName") String goodsName,@Param("goodsType")String  goodsType,@Param("supplier")String supplier,@Param("specification")String specification);
 //    /**
 //     * 根据用户名获取用户
 //     * @param username
