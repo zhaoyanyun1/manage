@@ -42,10 +42,9 @@ public class OutStockManage {
     @ResponseBody
     public Table repertorylist(@RequestParam int page , @RequestParam int limit){
         PageHelper.startPage(page,limit);
-        List<StockRemoval> list= stockRemovalService.listAll();
-        Page<StockRemoval> lists = (Page<StockRemoval>) list;
+        Page<StockRemoval> stockRemovals= (Page<StockRemoval>) stockRemovalService.listAll();
 
-        return new Table((int) lists.getTotal(), lists);
+        return new Table((int) stockRemovals.getTotal(), stockRemovals);
     }
 
 

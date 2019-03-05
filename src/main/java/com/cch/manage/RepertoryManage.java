@@ -6,6 +6,7 @@ import com.cch.base.AjaxReturn;
 import com.cch.base.Table;
 import com.cch.entity.Repertory;
 import com.cch.entity.Supplier;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,12 +47,9 @@ public class RepertoryManage {
     @ResponseBody
     public Table repertorylist(@RequestParam int page, @RequestParam int limit) {
         PageHelper.startPage(page, limit);
-        Table table = new Table();
         List<Repertory> list = repertoryService.listAll();
-        table.setData(list);
-        table.setCount(list.size());
-
-        return table;
+        Page<Repertory> pages = (Page<Repertory>) list;
+        return new Table((int) pages.getTotal(), list);
     }
 
 
@@ -82,7 +80,7 @@ public class RepertoryManage {
         model.addAttribute("suppliers", suppliers);
         model.addAttribute("repertorys", repertorys);
 //        model.addAttribute("repertory",repertory);
-        return "out";
+        return "manage/repertory/out";
     }
 
 

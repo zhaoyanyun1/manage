@@ -2,17 +2,12 @@ package com.cch.manage;
 
 import com.alibaba.fastjson.JSON;
 import com.cch.NumberToCN;
-import com.cch.accont.service.CompanyService;
-import com.cch.accont.service.RepertoryService;
-import com.cch.accont.service.StockRemovalService;
-import com.cch.accont.service.SupplierService;
+import com.cch.accont.service.*;
 import com.cch.base.AjaxReturn;
-import com.cch.base.Table;
 import com.cch.entity.Company;
 import com.cch.entity.Repertory;
 import com.cch.entity.StockRemoval;
-import com.cch.entity.Supplier;
-import com.github.pagehelper.PageHelper;
+import com.cch.entity.StockRemovalDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -42,6 +37,8 @@ public class StockManagement {
 
     @Resource
     private CompanyService companyService;
+    @Resource
+    private StockRemovalDetailService stockRemovalDetailService;
 
 
 
@@ -91,26 +88,37 @@ public class StockManagement {
         System.out.println(out);
         Repertory repertory = JSON.parseObject(out, Repertory.class);
         StockRemoval stockRemoval = JSON.parseObject(out, StockRemoval.class);
+        StockRemovalDetails stockRemovalDetails = JSON.parseObject(out, StockRemovalDetails.class);
         System.out.println(out);
         Repertory repertory1 = repertoryService.getByNTSS(repertory.getGoodsName(),repertory.getGoodsType(),repertory.getSupplier(),repertory.getSpecification());
         String orderNum = stockRemoval.getOrderNum();
+
+
         if (repertory1 != null) {
             repertory1.setGoodsNum(repertory1.getGoodsNum() - repertory.getGoodsNum());
             repertoryService.update(repertory1);
 
-//            StockRemoval stockRemoval = new StockRemoval();
             if(orderNum==null || orderNum.equals("")){
                 orderNum = getOrderIdByTime();
+                stockRemoval.setOrderNum(orderNum);
+                stockRemoval.setId(null);
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String date = formatter.format(new Date());
+                stockRemoval.setDate(date);
+                stockRemoval.setState("1");
+                stockRemovalService.save(stockRemoval);
+            }else{
+                StockRemoval stockRemoval1 = stockRemovalService.stockremovalByOrderNum(orderNum);
+                stockRemoval1.setMoney(new BigDecimal(stockRemoval.getMoney()).add(new BigDecimal(stockRemoval1.getMoney())).toString());
+                stockRemovalService.update(stockRemoval1);
             }
-            stockRemoval.setOrderNum(orderNum);
-            stockRemoval.setId(null);
-            stockRemoval.setGoodsName(repertory.getGoodsName());
-            stockRemoval.setGoodsNum(repertory.getGoodsNum());
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd KK:mm:ss");
-            String date = formatter.format(new Date());
-            stockRemoval.setDate(date);
-            stockRemoval.setState("1");
-            stockRemovalService.save(stockRemoval);
+            stockRemovalDetails.setState("1");
+            stockRemovalDetails.setId(null);
+            stockRemovalDetails.setOrderNum(orderNum);
+            stockRemovalDetailService.save(stockRemovalDetails);
+
+        }else{
+            return new AjaxReturn(1, "出库失败，未找到库存");
         }
 
         return new AjaxReturn(0, orderNum);
@@ -126,15 +134,13 @@ public class StockManagement {
      */
     @GetMapping(value = "/print")
     public String print(@RequestParam String orderNum,Model model) {
-        List<StockRemoval> stockRemovals = stockRemovalService.listByOrderNum(orderNum);
+        StockRemoval stockRemoval = stockRemovalService.stockremovalByOrderNum(orderNum);
+        List<StockRemovalDetails> stockRemovalDetails = stockRemovalDetailService.listByOrderNum(orderNum);
 
-        BigDecimal totalMoney = new BigDecimal(0);
+        BigDecimal totalMoney = new BigDecimal(stockRemoval.getMoney());
         BigDecimal totalNum = new BigDecimal(0);
-        for (StockRemoval stockRemoval : stockRemovals) {
-            BigDecimal money = new BigDecimal(stockRemoval.getMoney());
-            BigDecimal num = new BigDecimal(stockRemoval.getGoodsNum());
-            totalMoney = totalMoney.add(money);
-            totalNum = totalNum.add(num);
+        for (StockRemovalDetails stockRemovalDetail : stockRemovalDetails) {
+            totalNum = totalNum.add(new BigDecimal(stockRemovalDetail.getGoodsNum()));
         }
         NumberToCN number = new NumberToCN();
         String daxie = number.number2CNMontrayUnit(totalMoney);
@@ -145,7 +151,8 @@ public class StockManagement {
         model.addAttribute("daxie",daxie);
         model.addAttribute("totalMoney",totalMoney);
         model.addAttribute("totalNum",totalNum);
-        model.addAttribute("stockRemovals",stockRemovals);
+        model.addAttribute("stockRemoval",stockRemoval);
+        model.addAttribute("stockRemovalDetails",stockRemovalDetails);
         return "manage/repertory/print";
     }
 

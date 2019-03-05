@@ -22,37 +22,15 @@ public class StockRemovalServiceImpl extends BaseServiceImpl<StockRemoval,String
     @Resource
     private StockRemovalMapper stockRemovalMapper;
 
-//    public Repertory getBygoodsName(String goodsName,String supplier) {
-//        return repertoryMapper.getBygoodsName(goodsName,supplier);
-//    }
-//    public Repertory getByid(Long id) {
-//        return repertoryMapper.getByid(id);
-//    }
-//
-//  /*  public User getUser(String username, String passWd) {
-//        return userMapper.getUser(username,passWd);
-//    }*/
 
     public List<StockRemoval> listAll() {
         return stockRemovalMapper.listAllByOrderDateDesc();
     }
 
-    @Override
-    public List<StockRemoval> listByOrderNum(String orderNum) {
-        return stockRemovalMapper.listByOrderNum(orderNum);
+    public StockRemoval stockremovalByOrderNum(String orderNum) {
+        return stockRemovalMapper.stockremovalByOrderNum(orderNum);
     }
 
-//    public List<Role> getRoleList(String  userId) {
-//        return userMapper.getRoleList(userId);
-//    }
-//
-//    @Override
-//    @Transactional
-//    public void saveRoles(List<UserRoleKey> list) {
-//        for (UserRoleKey u:list) {
-//            userMapper.saveRoles(u.getUserId(),u.getRoleId());
-//        }
-//    }
 
 
 }

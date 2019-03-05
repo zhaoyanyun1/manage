@@ -35,32 +35,8 @@ public class Login {
             return "login";
         }
         request.setAttribute("name",name);
-//        UsernamePasswordToken token = new UsernamePasswordToken (user.getUserName (),user.Sal(),rememberMe);
-//        Subject subject = SecurityUtils.getSubject();
-//        model.addAttribute(user);
-//        try {
-//            subject.login (token);
-//        } catch (UnknownAccountException e) {
-//            model.addAttribute("tig","账号或密码错误");
-//            e.printStackTrace();
-//            logger.info ("账号或密码错误");
-//        } catch (Exception e){
-//            model.addAttribute("tig","账号或密码错误");
-//            e.printStackTrace();
-//            logger.info ("账号或密码错误");
-//        }
-//        if (subject.isAuthenticated()) {
-//            subject.getSession ().setAttribute ("user",userService.getByuserName (user.getUserName ()));
-//            subject.getSession().setAttribute("staff",(staffService.findOne(user.getUserName())==null)?new  Staff():staffService.findOne(user.getUserName()));
-//            return "redirect:/";
-//        } else {
-//
-//            return "/login";
-//        }
         return "main";
     }
-
-
 
     @GetMapping(value = "/loginOut")
     public String loginout(HttpSession session) {
